@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How To Play — Terceract Games</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ── Controls Table ─────────────────────────────────── */
+        .controls-section {
+            margin-bottom: 4rem;
+        }
+
+        .controls-section h3 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            letter-spacing: 0.05em;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .controls-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .controls-table thead tr {
+            border-bottom: 1px solid var(--border-2);
+        }
+
+        .controls-table th {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 0 1rem 1rem;
+            text-align: left;
+        }
+
+        .controls-table th:first-child {
+            width: 160px;
+            text-align: center;
+        }
+
+        .controls-table tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.15s;
+        }
+
+        .controls-table tbody tr:hover {
+            background: var(--surface);
+        }
+
+        .controls-table td {
+            padding: 1.1rem 1rem;
+            vertical-align: middle;
+        }
+
+        /* Key cell */
+        .td-keys {
+            text-align: center;
+        }
+
+        .keys-group {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Single key cap */
+        .key {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 0.6rem;
+            background: var(--surface);
+            border: 1px solid var(--border-2);
+            border-bottom: 3px solid var(--border-2);
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 0.05em;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .controls-table tbody tr:hover .key {
+            border-color: var(--accent);
+            border-bottom-color: var(--accent);
+            box-shadow: 0 2px 12px rgba(91,127,255,0.25);
+        }
+
+        /* Arrow keys get SVG arrows */
+        .key-arrow {
+            font-size: 1rem;
+            line-height: 1;
+        }
+
+        /* Separator between keys ("+" or "/") */
+        .key-sep {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        /* Action name */
+        .td-action {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* Description */
+        .td-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            max-width: 420px;
+        }
+
+        /* Category divider row */
+        .controls-table tr.category-row td {
+            padding: 2rem 1rem 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            border-bottom: none;
+            background: transparent !important;
+        }
+
+        /* ── Add-command form ──────────────────────────────── */
+        .add-command-section {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+        }
+
+        .add-command-section h4 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .add-form-row {
+            display: grid;
+            grid-template-columns: 140px 1fr 1.5fr auto;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .add-form-row .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-bottom: 0;
+        }
+
+        .add-form-row label {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .add-form-row input,
+        .add-form-row select {
+            background: var(--bg);
+            border: 1px solid var(--border-2);
+            color: var(--text-primary);
+            padding: 0.65rem 0.9rem;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 300;
+            outline: none;
+            transition: border-color 0.2s;
+            width: 100%;
+        }
+
+        .add-form-row input:focus,
+        .add-form-row select:focus {
+            border-color: var(--accent);
+        }
+
+        .add-form-row input::placeholder { color: var(--text-muted); }
+
+        .btn-add {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.65rem 1.4rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            white-space: nowrap;
+        }
+        .btn-add:hover {
+            background: #7a94ff;
+            transform: translateY(-1px);
+        }
+
+        .form-note-small {
+            margin-top: 0.75rem;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+        }
+
+        /* Delete button on custom rows */
+        .btn-delete-row {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.85rem;
+            padding: 0 0.25rem;
+            transition: color 0.15s;
+            line-height: 1;
+        }
+        .btn-delete-row:hover { color: #ff5f5f; }
+
+        .td-delete { width: 40px; text-align: center; }
+
+        /* Fade-in for new rows */
+        @keyframes rowIn {
+            from { opacity: 0; transform: translateX(-8px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        .row-new { animation: rowIn 0.3s var(--ease) both; }
+
+        @media (max-width: 700px) {
+            .add-form-row {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto auto auto;
+            }
+            .btn-add { grid-column: 1 / -1; }
+            .controls-table th:nth-child(3),
+            .controls-table td:nth-child(3) { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <a href="index.html" class="nav-logo">
+            <div class="logo-mark">T</div>
+            <span>TERCERACT</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="games.html">Games</a></li>
+            <li><a href="studio.html">Studio</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <button class="nav-cta" onclick="location.href='contact.html'">Contact Us</button>
+    </nav>
+
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+        <div class="hero-bg">
+            <div class="hero-grid"></div>
+            <div class="hero-glow" style="--glow-x:60%;--glow-y:50%;"></div>
+        </div>
+        <div class="page-hero-content">
+            <p class="section-label">// THE GRIEF CUBE</p>
+            <h1 class="page-title">How to Play</h1>
+        </div>
+    </section>
+
+    <!-- INTRO + CONTROLS -->
+    <section class="section">
+        <div class="game-detail">
+
+            <!-- INTRO -->
+            <div class="game-detail-header">
+                <h2 class="game-title-large">Controls</h2>
+                <p style="color:var(--text-secondary);max-width:600px;margin-top:0.5rem;">
+                    The Grief Cube is designed to be played with a keyboard and mouse.
+                    Below is the full list of controls. Hover a row to highlight its key.
+                </p>
+            </div>
+
+            <!-- TABLE -->
+            <div class="controls-section">
+                <table class="controls-table" id="controls-table">
+                    <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Action</th>
+                            <th>Description</th>
+                            <th></th><!-- delete col -->
+                        </tr>
+                    </thead>
+                    <tbody id="controls-body">
+
+                        <!-- ── NAVIGATION ── -->
+                        <tr class="category-row">
+                            <td colspan="4">Navigation</td>
+                        </tr>
+                        <tr>
+                            <td class="td-keys">
+                                <span class="keys-group">
+                                    <span class="key key-arrow">←</span>
+                                    <span class="key key-arrow">→</span>
+                                </span>
+                            </td>
+                            <td class="td-action">Look Left / Right</td>
+                            <td class="td-desc">Turn your head to view the left or right wall of the current room.</td>
+                            <td class="td-delete"></td>
+                        </tr>
+                        <tr>
+                            <td class="td-keys">
+                                <span class="keys-group">
+                                    <span class="key key-arrow">↑</span>
+                                    <span class="key key-arrow">↓</span>
+                                </span>
+                            </td>
+                            <td class="td-action">Move to Next / Previous Room</td>
+                            <td class="td-desc">Navigate forward or backward between the five stages of grief.</td>
+                            <td class="td-delete"></td>
+                        </tr>
+
+                        <!-- ── INTERFACE ── -->
+                        <tr class="category-row">
+                            <td colspan="4">Interface</td>
+                        </tr>
+                        <tr>
+                            <td class="td-keys">
+                                <span class="keys-group">
+                                    <span class="key">I</span>
+                                </span>
+                            </td>
+                            <td class="td-action">Open Inventory</td>
+                            <td class="td-desc">Display collected items. Some objects are needed to solve puzzles in later rooms.</td>
+                            <td class="td-delete"></td>
+                        </tr>
+                        <tr>
+                            <td class="td-keys">
+                                <span class="keys-group">
+                                    <span class="key">ESC</span>
+                                </span>
+                            </td>
+                            <td class="td-action">Open Pause Menu</td>
+                            <td class="td-desc">Opens the pause menu.</td>
+                            <td class="td-delete"></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ADD COMMAND FORM -->
+            <div class="add-command-section">
+                <h4>Add a Command</h4>
+                <div class="add-form-row">
+                    <div class="form-group">
+                        <label for="input-key">Key / Shortcut</label>
+                        <input type="text" id="input-key" placeholder="e.g. E, Space, Ctrl+Z" maxlength="20">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-action">Action Name</label>
+                        <input type="text" id="input-action" placeholder="e.g. Interact" maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-desc">Description</label>
+                        <input type="text" id="input-desc" placeholder="e.g. Interact with objects in the scene." maxlength="120">
+                    </div>
+                    <button class="btn-add" onclick="addCommand()">+ Add</button>
+                </div>
+                <p class="form-note-small">// Custom rows are temporary — they'll be lost on page reload. Wire up localStorage or a backend to persist them.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- BACK STRIP -->
+    <section class="coming-soon-strip">
+        <a href="games.html" style="color:var(--text-muted);font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;transition:color 0.2s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">← Back to Games</a>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="logo-mark">T</div>
+                <span>TERCERACT GAMES</span>
+            </div>
+            <nav class="footer-nav">
+                <a href="games.html">Games</a>
+                <a href="studio.html">Studio</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <p class="footer-copy">© 2025 Terceract Games. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        /* Render a key string into styled key caps.
+           Splits on "+", "/" or space so "Ctrl+Z" → [Ctrl] [+] [Z]  */
+        function renderKeys(keyStr) {
+            // Split by + or / keeping the separator
+            const parts = keyStr.trim().split(/([+/])/);
+            let html = '<span class="keys-group">';
+            parts.forEach(p => {
+                p = p.trim();
+                if (!p) return;
+                if (p === '+' || p === '/') {
+                    html += `<span class="key-sep">${p}</span>`;
+                } else {
+                    // Map common names to symbols
+                    const symbols = {
+                        'left': '←', 'right': '→', 'up': '↑', 'down': '↓',
+                        'arrowleft': '←', 'arrowright': '→', 'arrowup': '↑', 'arrowdown': '↓',
+                        'space': '␣', 'enter': '↵', 'esc': 'Esc', 'escape': 'Esc',
+                        'shift': '⇧', 'ctrl': 'Ctrl', 'alt': 'Alt', 'tab': '⇥',
+                        'backspace': '⌫', 'delete': 'Del',
+                    };
+                    const display = symbols[p.toLowerCase()] || p.toUpperCase();
+                    html += `<span class="key">${display}</span>`;
+                }
+            });
+            html += '</span>';
+            return html;
+        }
+
+        function addCommand() {
+            const keyInput    = document.getElementById('input-key');
+            const actionInput = document.getElementById('input-action');
+            const descInput   = document.getElementById('input-desc');
+
+            const key    = keyInput.value.trim();
+            const action = actionInput.value.trim();
+            const desc   = descInput.value.trim();
+
+            if (!key || !action) {
+                // Simple inline shake feedback
+                [keyInput, actionInput].forEach(el => {
+                    if (!el.value.trim()) {
+                        el.style.borderColor = '#ff5f5f';
+                        setTimeout(() => el.style.borderColor = '', 1200);
+                    }
+                });
+                return;
+            }
+
+            const tbody = document.getElementById('controls-body');
+            const tr = document.createElement('tr');
+            tr.classList.add('row-new');
+            tr.innerHTML = `
+                <td class="td-keys">${renderKeys(key)}</td>
+                <td class="td-action">${escapeHTML(action)}</td>
+                <td class="td-desc">${escapeHTML(desc)}</td>
+                <td class="td-delete">
+                    <button class="btn-delete-row" title="Remove this command" onclick="this.closest('tr').remove()">✕</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+
+            // Clear inputs
+            keyInput.value = '';
+            actionInput.value = '';
+            descInput.value = '';
+            keyInput.focus();
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        // Allow pressing Enter in the last input to submit
+        document.getElementById('input-desc').addEventListener('keydown', e => {
+            if (e.key === 'Enter') addCommand();
+        });
+        document.getElementById('input-action').addEventListener('keydown', e => {
+            if (e.key === 'Enter') document.getElementById('input-desc').focus();
+        });
+        document.getElementById('input-key').addEventListener('keydown', e => {
+            if (e.key === 'Enter') document.getElementById('input-action').focus();
+        });
+    </script>
+
+</body>
+</html>
