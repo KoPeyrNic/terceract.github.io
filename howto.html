@@ -369,28 +369,6 @@
                     </tbody>
                 </table>
             </div>
-
-            <!-- ADD COMMAND FORM -->
-            <div class="add-command-section">
-                <h4>Add a Command</h4>
-                <div class="add-form-row">
-                    <div class="form-group">
-                        <label for="input-key">Key / Shortcut</label>
-                        <input type="text" id="input-key" placeholder="e.g. E, Space, Ctrl+Z" maxlength="20">
-                    </div>
-                    <div class="form-group">
-                        <label for="input-action">Action Name</label>
-                        <input type="text" id="input-action" placeholder="e.g. Interact" maxlength="50">
-                    </div>
-                    <div class="form-group">
-                        <label for="input-desc">Description</label>
-                        <input type="text" id="input-desc" placeholder="e.g. Interact with objects in the scene." maxlength="120">
-                    </div>
-                    <button class="btn-add" onclick="addCommand()">+ Add</button>
-                </div>
-                <p class="form-note-small">// Custom rows are temporary — they'll be lost on page reload. Wire up localStorage or a backend to persist them.</p>
-            </div>
-
         </div>
     </section>
 
@@ -413,91 +391,6 @@
             <p class="footer-copy">© 2025 Terceract Games. All rights reserved.</p>
         </div>
     </footer>
-
-    <script>
-        /* Render a key string into styled key caps.
-           Splits on "+", "/" or space so "Ctrl+Z" → [Ctrl] [+] [Z]  */
-        function renderKeys(keyStr) {
-            // Split by + or / keeping the separator
-            const parts = keyStr.trim().split(/([+/])/);
-            let html = '<span class="keys-group">';
-            parts.forEach(p => {
-                p = p.trim();
-                if (!p) return;
-                if (p === '+' || p === '/') {
-                    html += `<span class="key-sep">${p}</span>`;
-                } else {
-                    // Map common names to symbols
-                    const symbols = {
-                        'left': '←', 'right': '→', 'up': '↑', 'down': '↓',
-                        'arrowleft': '←', 'arrowright': '→', 'arrowup': '↑', 'arrowdown': '↓',
-                        'space': '␣', 'enter': '↵', 'esc': 'Esc', 'escape': 'Esc',
-                        'shift': '⇧', 'ctrl': 'Ctrl', 'alt': 'Alt', 'tab': '⇥',
-                        'backspace': '⌫', 'delete': 'Del',
-                    };
-                    const display = symbols[p.toLowerCase()] || p.toUpperCase();
-                    html += `<span class="key">${display}</span>`;
-                }
-            });
-            html += '</span>';
-            return html;
-        }
-
-        function addCommand() {
-            const keyInput    = document.getElementById('input-key');
-            const actionInput = document.getElementById('input-action');
-            const descInput   = document.getElementById('input-desc');
-
-            const key    = keyInput.value.trim();
-            const action = actionInput.value.trim();
-            const desc   = descInput.value.trim();
-
-            if (!key || !action) {
-                // Simple inline shake feedback
-                [keyInput, actionInput].forEach(el => {
-                    if (!el.value.trim()) {
-                        el.style.borderColor = '#ff5f5f';
-                        setTimeout(() => el.style.borderColor = '', 1200);
-                    }
-                });
-                return;
-            }
-
-            const tbody = document.getElementById('controls-body');
-            const tr = document.createElement('tr');
-            tr.classList.add('row-new');
-            tr.innerHTML = `
-                <td class="td-keys">${renderKeys(key)}</td>
-                <td class="td-action">${escapeHTML(action)}</td>
-                <td class="td-desc">${escapeHTML(desc)}</td>
-                <td class="td-delete">
-                    <button class="btn-delete-row" title="Remove this command" onclick="this.closest('tr').remove()">✕</button>
-                </td>
-            `;
-            tbody.appendChild(tr);
-
-            // Clear inputs
-            keyInput.value = '';
-            actionInput.value = '';
-            descInput.value = '';
-            keyInput.focus();
-        }
-
-        function escapeHTML(str) {
-            return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-        }
-
-        // Allow pressing Enter in the last input to submit
-        document.getElementById('input-desc').addEventListener('keydown', e => {
-            if (e.key === 'Enter') addCommand();
-        });
-        document.getElementById('input-action').addEventListener('keydown', e => {
-            if (e.key === 'Enter') document.getElementById('input-desc').focus();
-        });
-        document.getElementById('input-key').addEventListener('keydown', e => {
-            if (e.key === 'Enter') document.getElementById('input-action').focus();
-        });
-    </script>
 
 </body>
 </html>
